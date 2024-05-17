@@ -39,5 +39,12 @@ async def create_pedido_for_user(
 ):
     return await pedidos.delete_pedido(id=id)
 
+@app.put("/pedido/pedidos/{id}")
+async def create_pedido_for_user(
+    id:int,
+    pedido: pedidos.PedidoBase
+):
+    return await pedidos.update_pedido(id=id, pedido=pedido)
+
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", reload=True, port=8000)

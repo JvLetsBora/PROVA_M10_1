@@ -108,6 +108,30 @@ async def delete_pedido(id: int) -> dict:
             "Resposta": f"Erro ao excluir o pedido: {str(e)}, usuário não encontrado."
         }
 
+
+async def update_pedido(id: int, pedido: PedidoBase) -> dict: 
+    db = await pool_session()
+    pedido = await get_pedido_id(id)
+    if pedido[0]:
+        return {
+            "Resposta": pedido[0]
+        }
+
+    try:
+        async with db.acquire() as connection:
+        # Executa a consulta SQL diretamente
+            query = f"UPDATE pedidos SET name = '{pedido.name}', email = '{pedido.email}', descrition = '{pedido.descrition}' WHERE id = {id};"
+            rows = await connection.fetch(query)
+            print(rows)
+            pedido = [dict(row) for row in rows]
+            return {
+                "Resposta": "Atualizado com sucesso!"
+            }
+    except Exception as e:
+        return {
+            "Resposta": f"Erro ao excluir o pedido: {str(e)}, usuário não encontrado."
+        }
+
 # async def update_task(db: asyncpg.Pool, task_id: int, task_data: TaskUpdate):
 #     try:
 #         async with db.acquire() as connection:
