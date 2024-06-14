@@ -10,9 +10,9 @@ services:
       PYTHONPATH: .
       DATABASE_URL: "postgresql+asyncpg://username:password@postgres:5432/postgres"
     volumes:
-      - ./app/logs:/app/app/logs
+      - ./logs:/app/app/logs
     ports:
-      - '8000:8000'
+      - '8001:8001'
     restart: on-failure
 
   gateway:
