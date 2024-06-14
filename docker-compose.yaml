@@ -9,31 +9,16 @@ services:
     environment:
       PYTHONPATH: .
       DATABASE_URL: "postgresql+asyncpg://username:password@postgres:5432/postgres"
+    volumes:
+      - ./app/logs:/app/app/logs
     ports:
       - '8000:8000'
-    restart: "no"
+    restart: on-failure
+
+  gateway:
+    build: ./gateway
+    ports:
+      - "8005:80"
     depends_on:
-      postgres:
-        condition: service_healthy
-
-  postgres:
-    container_name: postgres
-    image: postgres:16.2-alpine
-    environment:
-      POSTGRES_USER: username
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: postgres
-    ports:
-      - "5432:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d postgres -U username"]
-      interval: 2s
-      timeout: 2s
-      retries: 20
-    restart: always
-
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8089:8080
+      - app
+    restart: on-failure
