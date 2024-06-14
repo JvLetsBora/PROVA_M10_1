@@ -4,4 +4,4 @@
 
 Digite docker compose up para iniciar a aplicação
 
-Usando o thunder client importe as rotas lisatadas em "thunder-collection_prova.json"
+Usando o insommia client importe as rotas lisatadas em "Insomnia_2024-06-14.json" e teste.
